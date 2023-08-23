@@ -1,24 +1,30 @@
 import json
+
 CONTACTS_FILE = "contacts.json"
-# Load contacts from file, or initialize to empty dict 
+
+# Load contacts from file, or initialize to empty dict
 try:
     with open('contacts.json') as f:
-        contacts = json.load(f) 
+        contacts = json.load(f)
 except FileNotFoundError:
     contacts = {}
 
 def print_contacts():
+    print("\nContacts:\n")
+    print("{:<20} {:<15} {:<30}".format('Name', 'Phone', 'Email'))
     for name, contact in contacts.items():
-        print(f"{name} - {contact['phone']} - {contact['email']}")
+        print("{:<20} {:<15} {:<30}".format(name, contact['phone'], contact['email']))
 
 def add_contact():
+    print("\nAdd Contact:")
     name = input("Name: ")
     phone = input("Phone number: ")
     email = input("Email address: ")
-            
+   
     contacts[name] = {'phone':phone, 'email':email}
 
 def edit_contact():
+    print("\nEdit Contact:") 
     name = input("Name of contact to edit: ")
     if name in contacts:
         phone = input("New phone number (leave blank to unchanged): ")
@@ -28,35 +34,37 @@ def edit_contact():
             contacts[name]['phone'] = phone
         if email:
             contacts[name]['email'] = email
-        
+
     else:
         print(f"Contact {name} not found.")
-        
+
 def delete_contact():
+    print("\nDelete Contact:")
     name = input("Name of contact to delete: ")
 
     if name in contacts:
         del contacts[name]
     else:
         print(f"Contact {name} not found.")
-        
+
 def search_contacts():
+    print("\nSearch Contacts:")
     name = input("Search name: ")
     found = False
     for contact_name, contact in contacts.items():
         if name in contact_name:
             print(f"{contact_name} - {contact['phone']} - {contact['email']}")
             found = True
-    
+
     if not found:
         print("No contacts matched your search.")
 
 while True:
     print("1. Print contacts")
     print("2. Add contact")
-    print("3. Edit contact")
+    print("3. Edit contact") 
     print("4. Delete contact")
-    print("5. Search contacts") 
+    print("5. Search contacts")
     print("6. Quit")
 
     choice = int(input("Enter your choice: "))
@@ -67,15 +75,15 @@ while True:
         add_contact()
     elif choice == 3:
         edit_contact()
-    elif choice == 4:
+    elif choice == 4: 
         delete_contact()
     elif choice == 5:
         search_contacts()
     elif choice == 6:
         break
 
-# Save contacts to file on exit  
+# Save contacts to file on exit
 with open('contacts.json', 'w') as f:
     json.dump(contacts, f)
-    
+
 print("Contacts saved to contacts.json.")
